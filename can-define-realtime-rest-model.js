@@ -12,7 +12,7 @@ var realTime = require("can-connect/real-time/real-time");
 var callbacksOnce = require("can-connect/constructor/callbacks-once/callbacks-once");
 var namespace = require("can-namespace");
 
-function realtimeRestModel(optionsOrUrl) {
+function defineRealtimeRestModel(optionsOrUrl) {
 
 	// If optionsOrUrl is a string, make options = {url: optionsOrUrl}
 	var options = (typeof optionsOrUrl === "string") ? {url: optionsOrUrl} : optionsOrUrl;
@@ -39,4 +39,4 @@ function realtimeRestModel(optionsOrUrl) {
 	return connect(behaviors,options);
 }
 
-module.exports = namespace.realtimeRestModel = realtimeRestModel;
+module.exports = namespace.defineRealtimeRestModel = defineRealtimeRestModel;

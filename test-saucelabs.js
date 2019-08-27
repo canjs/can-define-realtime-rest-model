@@ -31,7 +31,7 @@ var platforms = [{
 
 SauceLabs({
 	urls: [{
-		name: "can-realtime-rest-model",
+		name: "can-define-realtime-rest-model",
 		url : 'http://localhost:3000/test-ie.html?hidepassed',
 		platforms: [{
 			browserName: 'internet explorer',
@@ -42,7 +42,7 @@ SauceLabs({
 			idleTimeout: idleTimeout
 		}]
 	}, {
-		name: "can-realtime-rest-model",
+		name: "can-define-realtime-rest-model",
 		url: "http://localhost:3000/test.html?hidepassed",
 		platforms: platforms
 	}],
