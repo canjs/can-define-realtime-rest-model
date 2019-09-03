@@ -1,11 +1,11 @@
 {
-  "name": "can-realtime-rest-model",
+  "name": "can-define-realtime-rest-model",
   "version": "1.1.1",
   "description": "Turn a map into a realtime rest model",
   "homepage": "http://canjs.com",
   "repository": {
     "type": "git",
-    "url": "git://github.com/canjs/can-realtime-rest-model.git"
+    "url": "git://github.com/canjs/can-define-realtime-rest-model.git"
   },
   "author": {
     "name": "DoneJS Core team",
@@ -25,7 +25,7 @@
     "release:major": "npm version major && npm publish",
     "develop": "done-serve --static --develop --port 8080"
   },
-  "main": "can-realtime-rest-model",
+  "main": "can-define-realtime-rest-model",
   "keywords": [
     "canjs",
     "donejs",

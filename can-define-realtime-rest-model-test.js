@@ -2,12 +2,12 @@ var QUnit = require("steal-qunit");
 var fixture = require("can-fixture");
 var DefineMap = require("can-define/map/map");
 var DefineList = require("can-define/list/list");
-var realtimeRestModel = require("./can-realtime-rest-model");
+var defineRealtimeRestModel = require("./can-define-realtime-rest-model");
 //var stealClone = require("steal-clone");
 var QueryLogic = require("can-query-logic");
 var canReflect = require("can-reflect");
 
-QUnit.module("can-realtime-rest-model");
+QUnit.module("can-define-realtime-rest-model");
 
 
 QUnit.test("basics", function(assert){
@@ -37,7 +37,7 @@ QUnit.test("basics", function(assert){
         "#": Todo
     });
 
-    var connection = realtimeRestModel({
+    var connection = defineRealtimeRestModel({
         Map: Todo,
         List: TodoList,
         url: "/api/todos/{_id}"
@@ -136,7 +136,7 @@ QUnit.test("basics", function(assert){
 });
 
 QUnit.test("string signature", function(assert) {
-    var connection = realtimeRestModel("/api/todos/{_id}");
+    var connection = defineRealtimeRestModel("/api/todos/{_id}");
 
     assert.ok(new connection.Map() instanceof DefineMap, "Map defined");
     assert.ok(new connection.List() instanceof DefineList, "List defined");

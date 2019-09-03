@@ -1,40 +1,40 @@
-@module {function} can-realtime-rest-model
+@module {function} can-define-realtime-rest-model
 @parent can-data-modeling
-@collection can-core
+@collection can-legacy
 @package ./package.json
 @outline 2
 
 @description Connect a type to a restful data source and automatically manage
 lists.
 
-@signature `realtimeRestModel(options)`
+@signature `defineRealtimeRestModel(options)`
 
-`realtimeRestModel` is the base model layer that most CanJS applications should
+`defineRealtimeRestModel` is the base model layer that most CanJS applications should
 use. It requires a properly configured [can-query-logic] which experimenters might
 find cumbersome to configure. If you are experimenting with CanJS, or have a
-very irregular service layer, [can-rest-model] might be a better fit.  For
-everyone else, use `realtimeRestModel` as it adds the following behaviors on top of [can-rest-model]:
+very irregular service layer, [can-define-rest-model] might be a better fit.  For
+everyone else, use `defineRealtimeRestModel` as it adds the following behaviors on top of [can-define-rest-model]:
 
 
 - [can-connect/constructor/store/store] - Unify instances and lists across requests.
 - [can-connect/real-time/real-time] - Add, remove, and move items between lists automatically.
 
 
-`realtimeRestModel` is useful even if you are not building a realtime
+`defineRealtimeRestModel` is useful even if you are not building a realtime
 application. It allows you to make changes to instances
 and have the lists in the page update themselves
 automatically. This is detailed in the [Purpose](#Purpose) section below.
 
-If your service layer matches what `realtimeRestModel` expects, configuring `realtimeRestModel` is very simple. For example, the following extends a `Todo` type with the ability to connect to a restful service layer:
+If your service layer matches what `defineRealtimeRestModel` expects, configuring `defineRealtimeRestModel` is very simple. For example, the following extends a `Todo` type with the ability to connect to a restful service layer:
 
 ```js
 import {Todo, todoFixture} from "//unpkg.com/can-demo-models@5";
-import {realtimeRestModel} from "can";
+import {defineRealtimeRestModel} from "can";
 
 // Creates a mock backend with 5 todos
 todoFixture(5);
 
-Todo.connection = realtimeRestModel({
+Todo.connection = defineRealtimeRestModel({
     Map: Todo,
     List: Todo.List,
     url: "/api/todos/{id}"
@@ -97,9 +97,9 @@ Todo.getList().then(todos => {
   type. This is built automatically from the `Map` if [can-define/map/map] is used.
 
 @return {connection} A connection that is the combination of the options and all the behaviors
-that `realtimeRestModel` adds.
+that `defineRealtimeRestModel` adds.
 
-@signature `realtimeRestModel(url)`
+@signature `defineRealtimeRestModel(url)`
 
 Create a connection with just a url. Use this if you do not need to pass in any other `options` to configure the connection.
 
@@ -107,12 +107,12 @@ For example, the following creates a `Todo` type with the ability to connect to 
 
 ```js
 import {todoFixture} from "//unpkg.com/can-demo-models@5";
-import {realtimeRestModel} from "can";
+import {defineRealtimeRestModel} from "can";
 
 // Creates a mock backend with 5 todos
 todoFixture(5);
 
-const Todo = realtimeRestModel("/api/todos/{id}").Map;
+const Todo = defineRealtimeRestModel("/api/todos/{id}").Map;
 
 // Prints out all todo names
 
@@ -128,7 +128,7 @@ Todo.getList().then(todos => {
   delete data.
 
 @return {connection} A connection that is the combination of the options and all the behaviors
-that `realtimeRestModel` adds. The `connection` includes a `Map` property which is the type
+that `defineRealtimeRestModel` adds. The `connection` includes a `Map` property which is the type
 constructor function used to create instances of the raw record data retrieved from the server.
 
 
@@ -136,14 +136,14 @@ constructor function used to create instances of the raw record data retrieved f
 
 ## Purpose
 
-`realtimeRestModel` extends [can-rest-model] with two new features:
+`defineRealtimeRestModel` extends [can-define-rest-model] with two new features:
 
 - Automatic list management
 - Unified instances and lists across requests with list and instance stores.
 
 ### Automatic list management
 
-`realtimeRestModel` allows you to make changes to instances
+`defineRealtimeRestModel` allows you to make changes to instances
 and have the lists in the page update themselves
 automatically. This can remove a lot of boilerplate from your
 application. For example, if you make a simple component that
@@ -211,20 +211,20 @@ will update automatically. For example:
   todo.destroy();
   ```
 
-The following code example uses `realtimeRestModel` to create a list of todos that automatically updates itself when new todos are created.
+The following code example uses `defineRealtimeRestModel` to create a list of todos that automatically updates itself when new todos are created.
 
 ```html
 <todo-create></todo-create>
 <todo-list></todo-list>
 
 <script type="module">
-import {realtimeRestModel, Component} from "can";
+import {defineRealtimeRestModel, Component} from "can";
 import {Todo, todoFixture} from "//unpkg.com/can-demo-models@5";
 
 // Creates a mock backend with 5 todos
 todoFixture(5);
 
-Todo.connection = realtimeRestModel({
+Todo.connection = defineRealtimeRestModel({
     Map: Todo,
     List: Todo.List,
     url: "/api/todos/{id}"
@@ -282,7 +282,7 @@ Component.extend({
 
 ### List and instance stores
 
-Additionally, `realtimeRestModel` unifies record and list instances.  This means that if you
+Additionally, `defineRealtimeRestModel` unifies record and list instances.  This means that if you
 request the same data twice, only one instance will be created
 and shared. For example, if a `<todo-details>` widget loads the `id=5` todo, and another `<todo-edit>` widget loads the same data independently like:
 
@@ -292,13 +292,13 @@ and shared. For example, if a `<todo-details>` widget loads the `id=5` todo, and
 <todo-details></todo-details>
 
 <script type="module">
-import {realtimeRestModel, Component} from "can";
+import {defineRealtimeRestModel, Component} from "can";
 import {Todo, todoFixture} from "//unpkg.com/can-demo-models@5";
 
 // Creates a mock backend with 6 todos
 todoFixture(6);
 
-Todo.connection = realtimeRestModel({
+Todo.connection = defineRealtimeRestModel({
     Map: Todo,
     List: Todo.List,
     url: "/api/todos/{id}"
@@ -353,11 +353,11 @@ Todo.getList({ filter: { complete: false } })
 
 ## Use
 
-Use `realtimeRestModel` to build a connection to a restful service
-layer. `realtimeRestModel` builds on top of [can-rest-model]. Please
-read the _"Use"_ section of [can-rest-model] before reading this _"Use"_ section.
-This _"Use"_ section details knowledge needed in addition to  [can-rest-model]
-to use `realtimeRestModel`, such as:
+Use `defineRealtimeRestModel` to build a connection to a restful service
+layer. `defineRealtimeRestModel` builds on top of [can-define-rest-model]. Please
+read the _"Use"_ section of [can-define-rest-model] before reading this _"Use"_ section.
+This _"Use"_ section details knowledge needed in addition to  [can-define-rest-model]
+to use `defineRealtimeRestModel`, such as:
 
 - Configuring queryLogic
 - Updating the page from server-side events  
@@ -365,7 +365,7 @@ to use `realtimeRestModel`, such as:
 
 ### Configuring queryLogic
 
-`realtimeRestModel` requires a properly
+`defineRealtimeRestModel` requires a properly
 configured [can-connect/base/base.queryLogic]. If your server supports
 `getList` parameters that match [can-query-logic/query can-query-logic's default query structure], then no configuration
 is likely necessary. The default `query` structure looks like:
@@ -392,7 +392,7 @@ There's a:
 - [page](http://jsonapi.org/format/#fetching-pagination) property that selects a range of the sorted result. _The range indexes are inclusive_. Example: `{page: 0, end: 9}` returns 10 records.
 
 > __NOTE__: [can-connect] does not follow the rest of the JSONAPI specification. Specifically
-> [can-connect] expects your server to send back JSON data in a format described in [can-rest-model].
+> [can-connect] expects your server to send back JSON data in a format described in [can-define-rest-model].
 
 If you control the service layer, we __encourage__ you to make it match the default
 [can-query-logic/query].  The default query structure also supports the following [can-query-logic/comparison-operators]: `$eq`, `$gt`, `$gte`, `$in`, `$lt`, `$lte`, `$ne`, `$nin`.
@@ -413,7 +413,7 @@ you can listen to events and call these methods on the `connection` as follows:
 ```js
 import io from 'steal-socket.io';
 
-const todoConnection = realtimeRestModel({
+const todoConnection = defineRealtimeRestModel({
     Map: Todo,
     List: TodoList,
     url: "/api/todos/{id}"
